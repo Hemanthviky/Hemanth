@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="340" height="460" viewBox="0 0 340 460">
+  <rect width="340" height="460" fill="#d4d4d4"/>
+  <!-- Body / torso -->
+  <rect x="70" y="280" width="200" height="180" rx="20" fill="#a3a3a3"/>
+  <!-- Head -->
+  <ellipse cx="170" cy="210" rx="70" ry="80" fill="#a3a3a3"/>
+  <!-- Neck -->
+  <rect x="145" y="270" width="50" height="40" fill="#a3a3a3"/>
+  <!-- Placeholder text -->
+  <text x="170" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#737373" font-weight="600">Your Photo Here</text>
+</svg>

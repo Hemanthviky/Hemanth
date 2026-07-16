@@ -1,0 +1,6 @@
+export const GREETING_DURATION_MS = 500;
+export const GREETING_EXIT_DURATION_MS = 200;
+export const GREETING_ENTER_DURATION_MS = 260;
+export const COMPLETE_HOLD_MS = 300;
+export const EXIT_ANIMATION_DURATION_MS = 800;
+export const EXIT_ZOOM_SCALE = 8;
