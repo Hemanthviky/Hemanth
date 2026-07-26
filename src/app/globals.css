@@ -28,10 +28,35 @@
   --color-error: var(--error);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-script: var(--font-caveat);
+  --animate-marquee: marquee 26s linear infinite;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Ready to apply once a real cutout photo replaces the intro-teaser placeholder:
+ * pops a transparent-background PNG cutout off the white page. */
+.portrait-cutout {
+  filter: drop-shadow(0 3px 0 rgba(11, 11, 15, 0.9)) drop-shadow(0 14px 28px rgba(11, 11, 15, 0.16));
+}
+
+/* Forces the native cursor off for every descendant inside the Finder section,
+ * including interactive elements (buttons/inputs) whose own `cursor: pointer`
+ * base style otherwise wins over an inherited `cursor: none` on the ancestor. */
+.finder-cursor-scope,
+.finder-cursor-scope * {
+  cursor: none !important;
 }

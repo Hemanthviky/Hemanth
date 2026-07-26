@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
+import { Navbar } from "@/components/layout/Navbar";
 
 const EXPO_OUT = [0.16, 1, 0.3, 1] as const;
 
@@ -57,53 +57,25 @@ function FadeUp({
   );
 }
 
-const PHOTO_SIZE = "clamp(320px, 42vw, 680px)";
+const PHOTO_SIZE = "clamp(210px, 42vw, 680px)";
 const PHOTO_TOP = "clamp(-1.5rem, -2.5vw, -3rem)";
 
 export function HeroSection() {
   const reduced = useReducedMotion();
 
   return (
-    <section className="w-full h-dvh bg-white flex flex-col overflow-hidden">
+    <section className="w-full min-h-dvh bg-white flex flex-col overflow-hidden">
 
-      {/* ── Navbar ── */}
-      <motion.nav
-        className="flex items-center justify-between px-6 md:px-10 py-5 relative z-30"
-        initial={{ opacity: 0, y: -12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.05, ease: EXPO_OUT }}
-      >
-        <Link href="/" className="flex items-center select-none">
-          <span className="font-black text-[1.5rem] leading-none tracking-tight text-black">Hemanth</span>
-          <span className="text-amber-400 font-black text-[1.9rem] leading-none">.</span>
-        </Link>
-
-        <ul className="hidden md:flex items-center gap-10 text-[0.82rem] font-medium text-black/55">
-          {["Work", "About", "Contact"].map((link) => (
-            <li key={link}>
-              <a href={`#${link.toLowerCase()}`} className="hover:text-black transition-colors duration-200">
-                {link}
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        <a
-          href="mailto:hemanth@example.com"
-          className="hidden md:flex items-center px-5 py-2.5 rounded-full bg-black text-white text-[0.8rem] font-medium hover:bg-zinc-800 transition-colors duration-200"
-        >
-          hemanth@example.com
-        </a>
-      </motion.nav>
+      <Navbar />
 
       {/* ── Hero body ── */}
-      <div className="flex-1 flex flex-col justify-between px-5 md:px-8 pb-4 pt-0 min-h-0">
+      <div className="flex-1 flex flex-col justify-between gap-8 px-5 md:px-8 pt-4 pb-8 md:pb-4">
 
         {/* Greeting */}
         <FadeUp delay={0.18} className="text-center text-[0.88rem] md:text-[0.95rem] font-medium text-black/55 mb-3">
           <span>👋</span>
           <span className="ml-2">, hi — I&apos;m Hemanth, Building products
-               that people love.</span>
+            that people love.</span>
         </FadeUp>
 
         {/* ── Layered title + photo ──────────────────────────────────────────
@@ -127,7 +99,7 @@ export function HeroSection() {
           <div className="relative w-full" style={{ zIndex: 1 }}>
             <h1
               className="font-black text-black leading-[0.88] tracking-[-0.03em] select-none w-full text-center"
-              style={{ fontSize: "clamp(3.8rem, 12.5vw, 15rem)" }}
+              style={{ fontSize: "clamp(2.5rem, 12.5vw, 15rem)" }}
             >
               <SplitWords text="Web Developer" delay={0.26} stagger={0.048} />
             </h1>
@@ -146,7 +118,7 @@ export function HeroSection() {
             <h2
               className="font-black leading-[0.88] tracking-[-0.03em] select-none w-full text-center"
               style={{
-                fontSize: "clamp(3.5rem, 11.5vw, 13.5rem)",
+                fontSize: "clamp(2.3rem, 11.5vw, 13.5rem)",
                 /* transparent fill + stroke = photo visible through letters */
                 color: "transparent",
                 WebkitTextStroke: "2px black",
@@ -182,12 +154,12 @@ export function HeroSection() {
         </div>
 
         {/* ── Bottom row ── */}
-        <div className="flex flex-col gap-3 mt-4">
+        <div className="flex flex-col gap-3 mt-4" style={{ marginTop: "-175px" }}>
 
           {/* Tagline + tech stack */}
-          <FadeUp delay={0.66} className="flex flex-wrap items-center justify-between gap-3">
+          <FadeUp delay={0.66} className="flex flex-wrap items-center justify-between gap-3 ">
             <p className="text-[0.95rem] md:text-base font-semibold text-black">
-              📍 Tamil Nadu, India 
+              📍 Tamil Nadu, India
             </p>
             <p className="max-w-sm text-[0.82rem] md:text-[0.88rem] font-medium text-black/55 leading-snug">
               I build high-performance websites, SaaS platforms, and mobile apps with a focus on design, speed, and user experience.
@@ -214,10 +186,28 @@ export function HeroSection() {
               {/* arrow icon */}
               <span className="relative z-10 flex items-center justify-center w-6 h-6 rounded-lg bg-white/10 group-hover:bg-white/20 transition-colors duration-200">
                 <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
-                  <path d="M2 9L9 2M9 2H4M9 2V7" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M2 9L9 2M9 2H4M9 2V7" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </span>
             </motion.a>
+
+            {/* Scroll indicator — mouse shell, centered between the two buttons */}
+            <motion.div
+              className="flex items-center"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.1, ease: EXPO_OUT }}
+            >
+              {/* Mouse shell */}
+              <div className="relative flex items-start justify-center w-[1.35rem] h-[2.1rem] rounded-full border-[1.5px] border-black/25">
+                {/* Scrolling dot */}
+                <motion.span
+                  className="w-[3px] h-[6px] rounded-full bg-black/40 mt-[5px]"
+                  animate={{ y: [0, 7, 0], opacity: [1, 0.3, 1] }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                />
+              </div>
+            </motion.div>
 
             {/* SECONDARY — Let's Talk */}
             <motion.a
@@ -240,8 +230,8 @@ export function HeroSection() {
               </span>
             </motion.a>
 
-            {/* Tech stack pill — pinned to the right */}
-            <div className="absolute right-0 hidden md:flex items-center gap-2 px-4 py-2 rounded-full border border-black/10 bg-black/[0.03]">
+            {/* Tech stack pill — pinned to the right; only shown once there's room beside the centered CTAs */}
+            <div className="absolute right-0 hidden lg:flex items-center gap-2 px-4 py-2 rounded-full border border-black/10 bg-black/[0.03]">
               {["React", "Next.js", "Flutter", "AI"].map((tech, i) => (
                 <span key={tech} className="flex items-center gap-2">
                   <span className="text-[0.72rem] font-semibold text-black/60 tracking-wide">{tech}</span>
@@ -252,25 +242,6 @@ export function HeroSection() {
           </FadeUp>
 
         </div>
-
-        {/* ── Scroll indicator ── */}
-        <motion.div
-          className="flex flex-col items-center gap-2 pb-1"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.1, ease: EXPO_OUT }}
-        >
-          {/* Mouse shell */}
-          <div className="relative flex items-start justify-center w-[1.35rem] h-[2.1rem] rounded-full border-[1.5px] border-black/25">
-            {/* Scrolling dot */}
-            <motion.span
-              className="w-[3px] h-[6px] rounded-full bg-black/40 mt-[5px]"
-              animate={{ y: [0, 7, 0], opacity: [1, 0.3, 1] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-            />
-          </div>
-          <span className="text-[0.6rem] font-semibold tracking-[0.18em] uppercase text-black/30">Scroll</span>
-        </motion.div>
 
       </div>
     </section>
