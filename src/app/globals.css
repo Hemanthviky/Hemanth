@@ -30,6 +30,7 @@
   --font-mono: var(--font-geist-mono);
   --font-script: var(--font-caveat);
   --animate-marquee: marquee 26s linear infinite;
+  --animate-waypoint-pulse: waypoint-pulse 2s ease-in-out infinite;
 }
 
 body {
@@ -44,6 +45,19 @@ body {
   }
   to {
     transform: translateX(-50%);
+  }
+}
+
+/* Soft radar ping on the journey road's active waypoint glow ring. */
+@keyframes waypoint-pulse {
+  0%,
+  100% {
+    transform: scale(0.85);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.45);
+    opacity: 0.1;
   }
 }
 

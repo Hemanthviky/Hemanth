@@ -1,16 +1,45 @@
-export interface IExperienceEntry {
+export type JourneyCardSide = "left" | "right";
+
+export type JourneyRoadVariant = "desktop" | "mobile";
+
+export type JourneyWaypointState = "upcoming" | "active" | "visited";
+
+export interface IJourneyMilestone {
   id: string;
-  index: string;
   role: string;
   company: string;
   dateRange: string;
   isPresent: boolean;
-  isCompleted?: boolean;
+  /** The single "Current Role" — where the car parks in the reduced-motion
+   * static layout, and the milestone the legend's yellow dot refers to. */
+  isCurrent?: boolean;
   summary: string;
-  itemsLabel: string;
-  items: string[];
-  /** Card 3's "What I Build" list reads as service types, not action-verb
-   * contributions, so it renders as a pill cluster instead of a tick list. */
-  itemsAsPills?: boolean;
   tech: string[];
+}
+
+export interface IJourneyWaypoint {
+  x: number;
+  y: number;
+}
+
+export interface IJourneyRoad {
+  variant: JourneyRoadVariant;
+  viewBox: string;
+  width: number;
+  height: number;
+  /** The single path the car follows — also drawn as the road itself, so the
+   * car's MotionPath motion is exactly the visible asphalt. */
+  d: string;
+  casingWidth: number;
+  roadWidth: number;
+  centerWidth: number;
+  centerDash: string;
+  marker: { glow: number; ring: number; ringStroke: number; core: number };
+  carScale: number;
+  /** ViewBox coords of each stop — must sit ON the path (curve endpoints).
+   * Last entry is the "On The Way" finish marker; the rest map 1:1 to
+   * JOURNEY_MILESTONES. */
+  waypoints: IJourneyWaypoint[];
+  /** Which side of the road each milestone card sits on. */
+  cardSides: JourneyCardSide[];
 }

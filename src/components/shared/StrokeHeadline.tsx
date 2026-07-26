@@ -8,15 +8,23 @@ import { useIsomorphicLayoutEffect } from "@/hooks/useIsomorphicLayoutEffect";
 interface StrokeHeadlineProps {
   text: string;
   /** Words (exact match) rendered stroke-only instead of solid black. */
-  strokeWords: string[];
+  strokeWords?: string[];
+  /** Words (exact match) rendered in the accent yellow instead of solid black. */
+  accentWords?: string[];
   className?: string;
   style?: CSSProperties;
+}
+
+function wordClass(isStroke: boolean, isAccent: boolean) {
+  if (isStroke) return "text-transparent";
+  if (isAccent) return "text-accent";
+  return "text-black";
 }
 
 /** Hero-style headline mixing solid and outline words, revealed word-by-word
  * via a scroll-scrubbed GSAP SplitText mask. Shared by every section that
  * echoes the hero's solid/stroke type trick. */
-export function StrokeHeadline({ text, strokeWords, className, style }: StrokeHeadlineProps) {
+export function StrokeHeadline({ text, strokeWords = [], accentWords = [], className, style }: StrokeHeadlineProps) {
   const ref = useRef<HTMLHeadingElement>(null);
   const reduced = useReducedMotion();
 
@@ -49,10 +57,11 @@ export function StrokeHeadline({ text, strokeWords, className, style }: StrokeHe
     <h2 ref={ref} className={className} style={style}>
       {words.map((word, i) => {
         const isStroke = strokeWords.includes(word);
+        const isAccent = accentWords.includes(word);
         return (
           <span key={`${word}-${i}`}>
             <span
-              className={isStroke ? "text-transparent" : "text-black"}
+              className={wordClass(isStroke, isAccent)}
               style={isStroke ? { WebkitTextStroke: "1.5px black" } : undefined}
             >
               {word}

@@ -1,13 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { EASE_OUT_EXPO } from "@/constants/motion";
 
 interface WorksProgressDotsProps {
   count: number;
   activeIndex: number;
 }
-
-const EASE = [0.16, 1, 0.3, 1];
 
 export function WorksProgressDots({ count, activeIndex }: WorksProgressDotsProps) {
   return (
@@ -24,7 +23,7 @@ export function WorksProgressDots({ count, activeIndex }: WorksProgressDotsProps
               animate={{
                 color: i === activeIndex ? "rgba(0,0,0,0.85)" : "rgba(0,0,0,0.25)",
               }}
-              transition={{ duration: 0.3, ease: EASE }}
+              transition={{ duration: 0.3, ease: EASE_OUT_EXPO }}
             >
               {String(i + 1).padStart(2, "0")}
             </motion.span>
@@ -37,7 +36,7 @@ export function WorksProgressDots({ count, activeIndex }: WorksProgressDotsProps
                 height: i === activeIndex ? 8 : 6,
                 backgroundColor: i === activeIndex ? "#000000" : "rgba(0,0,0,0.2)",
               }}
-              transition={{ duration: 0.3, ease: EASE }}
+              transition={{ duration: 0.3, ease: EASE_OUT_EXPO }}
             />
           </div>
 

@@ -5,7 +5,8 @@ import { useReducedMotion } from "framer-motion";
 import { gsap } from "@/lib/gsap";
 import { useIsomorphicLayoutEffect } from "@/hooks/useIsomorphicLayoutEffect";
 import { StrokeHeadline } from "@/components/shared/StrokeHeadline";
-import { EXPERIENCE_EYEBROW, EXPERIENCE_INTRO } from "@/data/experience";
+import { EXPERIENCE_EYEBROW, JOURNEY_SUBTEXT } from "@/data/experience";
+import { JourneyLegend } from "./JourneyLegend";
 
 export function ExperienceHeader() {
   const kickerRef = useRef<HTMLDivElement>(null);
@@ -59,15 +60,17 @@ export function ExperienceHeader() {
       </div>
 
       <StrokeHeadline
-        text="Where I've Worked"
-        strokeWords={["Worked"]}
+        text="My Journey So Far"
+        accentWords={["So", "Far"]}
         className="font-black leading-[0.94] tracking-[-0.03em]"
         style={{ fontSize: "clamp(2.6rem, 7.5vw, 5.5rem)" }}
       />
 
       <p ref={paraRef} className="mt-6 max-w-2xl text-[0.95rem] leading-relaxed text-black/55 md:mt-8 md:text-[1.05rem]">
-        {EXPERIENCE_INTRO}
+        {JOURNEY_SUBTEXT}
       </p>
+
+      <JourneyLegend />
     </div>
   );
 }
