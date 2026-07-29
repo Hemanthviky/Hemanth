@@ -42,7 +42,7 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
         <motion.div
           exit={backgroundExit}
           style={{ willChange: "opacity" }}
-          className="bg-background fixed inset-0 z-50 flex items-center justify-center overflow-hidden"
+          className="bg-bg fixed inset-0 z-50 flex items-center justify-center overflow-hidden"
         >
           <LoadingScreenBackground />
 

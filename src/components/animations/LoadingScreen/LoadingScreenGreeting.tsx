@@ -33,7 +33,7 @@ function LoadingScreenGreetingComponent({ greeting, greetingIndex }: LoadingScre
         animate={{ ...variants.animate, transition: { duration: ENTER_DURATION_S, ease: ENTER_EASE } }}
         exit={{ ...variants.exit, transition: { duration: EXIT_DURATION_S, ease: EXIT_EASE } }}
         style={{ willChange: "opacity, transform, filter" }}
-        className="absolute inset-0 flex items-center justify-center whitespace-nowrap text-4xl font-medium text-foreground sm:text-5xl md:text-6xl lg:text-7xl"
+        className="absolute inset-0 flex items-center justify-center whitespace-nowrap text-4xl font-medium text-white sm:text-5xl md:text-6xl lg:text-7xl"
       >
         {greeting}
       </motion.span>

@@ -1,45 +1,65 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Caveat } from "next/font/google";
+import { Inter, JetBrains_Mono, Titillium_Web } from "next/font/google";
 import { LoadingScreen } from "@/components/animations/LoadingScreen";
+import { Footer } from "@/components/layout/Footer";
+import { Navbar } from "@/components/layout/Navbar";
+import { ScrollProgressBar } from "@/components/layout/ScrollProgressBar";
+import { SITE_URL } from "@/data/site";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const titillium = Titillium_Web({
+  variable: "--font-titillium",
   subsets: ["latin"],
+  weight: ["700", "900"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
 });
 
-/* Deliberate one-off exception to the Geist/Inter/Space Grotesk rule: used only
- * for the handwritten name accent in the homepage intro teaser, never for body
- * or heading text. */
-const caveat = Caveat({
-  variable: "--font-caveat",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
-  weight: ["600", "700"],
+  weight: ["500"],
+  display: "swap",
 });
+
+const TITLE = "Hemanth N — Web Developer & Designer";
+const DESCRIPTION =
+  "I build high-performance websites, SaaS platforms, and mobile apps with a focus on design, speed, and user experience.";
 
 export const metadata: Metadata = {
-  title: "Hemanth — Web Developer & Designer",
-  description: "Portfolio of Hemanth, a freelance web developer and designer.",
+  metadataBase: new URL(SITE_URL),
+  title: TITLE,
+  description: DESCRIPTION,
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    url: SITE_URL,
+    siteName: "Hemanth N",
+    type: "website",
+    images: [{ url: "/Hero-Hemanth.png", width: 1200, height: 630, alt: TITLE }],
+  },
+  twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${caveat.variable} h-full antialiased`}
+      className={`${titillium.variable} ${inter.variable} ${jetbrainsMono.variable} h-full`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="flex min-h-full flex-col">
         <LoadingScreen />
-        {children}
+        <ScrollProgressBar />
+        <Navbar />
+        <div className="flex-1">{children}</div>
+        <Footer />
       </body>
     </html>
   );

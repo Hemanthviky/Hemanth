@@ -1,76 +1,227 @@
 @import "tailwindcss";
 
-:root {
-  --background: #0b0b0f;
-  --surface: #15151a;
-  --card: #1c1c22;
-  --border: #2a2a33;
-  --foreground: #ffffff;
-  --secondary: #a1a1aa;
-  --muted: #71717a;
-  --accent: #f59e0b;
-  --accent-hover: #fbbf24;
-  --success: #22c55e;
-  --error: #ef4444;
+/* ---------------------------------------------------------------------------
+ * Design tokens — the single source of truth for the whole site.
+ * Every color, font, size, tracking and duration used by any component comes
+ * from here. Components never inline a hex value or a raw font size.
+ * ------------------------------------------------------------------------ */
+@theme {
+  /* Surfaces */
+  --color-bg: #0a0a0c;
+  --color-bg-elevated: #131318;
+  --color-surface: #1c1c22;
+  --color-carbon: #16161a;
+  --color-border: #2a2a30;
+
+  /* Text */
+  --color-white: #f5f5f0;
+  --color-muted: #8a8a92;
+  --color-muted-warm: #b8b8bd;
+
+  /* Accents */
+  --color-racing-red: #e10600;
+  --color-racing-red-hover: #ff1a12;
+  --color-signal-yellow: #ffcc00;
+
+  /* Warm key-light tint, shared by the 3D scene and its static fallback. */
+  --color-key-glow: #fff4e0;
+
+  /* Families */
+  --font-display: var(--font-titillium), sans-serif;
+  --font-body: var(--font-inter), sans-serif;
+  --font-mono: var(--font-jetbrains-mono), monospace;
+
+  /* Type scale — every step in the global scale, mobile → desktop */
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow-lg: 0.875rem;
+  --text-h1: 2.75rem;
+  --text-h1-md: 5.5rem;
+  --text-h1-lg: 7.5rem;
+  --text-h2: 2rem;
+  --text-h2-lg: 3rem;
+  --text-h3: 1.25rem;
+  --text-body: 1rem;
+  --text-body-lg: 1.125rem;
+  --text-label-xs: 0.6875rem;
+  --text-label: 0.75rem;
+  --text-label-lg: 0.8125rem;
+  --text-button: 0.875rem;
+  --text-wordmark: 1.25rem;
+  --text-data-sm: 1.25rem;
+  --text-data: 1.75rem;
+  --text-data-lg: 2.5rem;
+  --text-ghost-numeral: 4.5rem;
+  --text-ghost-numeral-lg: 8rem;
+  --text-menu-link: 2rem;
+
+  --tracking-display: -0.02em;
+  --tracking-button: 0.04em;
+  --tracking-label: 0.06em;
+  --tracking-nav: 0.08em;
+  --tracking-label-wide: 0.1em;
+  --tracking-eyebrow: 0.12em;
+
+  --leading-h1: 0.95;
+  --leading-body: 1.6;
+
+  /* Chrome dimensions */
+  --spacing-nav: 4rem;
+  --spacing-nav-lg: 4.5rem;
+
+  /* Motion — the four permitted durations plus the accordion step */
+  --duration-fast: 150ms;
+  --duration-quick: 200ms;
+  --duration-base: 300ms;
+  --duration-slow: 500ms;
+  --duration-slowest: 800ms;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-ticker: ticker 32s linear infinite;
+  --animate-status-pulse: status-pulse 1.2s ease-in-out infinite;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-surface: var(--surface);
-  --color-card: var(--card);
-  --color-border: var(--border);
-  --color-foreground: var(--foreground);
-  --color-secondary: var(--secondary);
-  --color-muted: var(--muted);
-  --color-accent: var(--accent);
-  --color-accent-hover: var(--accent-hover);
-  --color-success: var(--success);
-  --color-error: var(--error);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-script: var(--font-caveat);
-  --animate-marquee: marquee 26s linear infinite;
-  --animate-waypoint-pulse: waypoint-pulse 2s ease-in-out infinite;
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
-}
-
-@keyframes marquee {
+@keyframes ticker {
   from {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
   to {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
-/* Soft radar ping on the journey road's active waypoint glow ring. */
-@keyframes waypoint-pulse {
+/* Device (e): "live/current" heartbeat. */
+@keyframes status-pulse {
   0%,
   100% {
-    transform: scale(0.85);
-    opacity: 0.4;
+    opacity: 1;
   }
   50% {
-    transform: scale(1.45);
-    opacity: 0.1;
+    opacity: 0.4;
   }
 }
 
-/* Ready to apply once a real cutout photo replaces the intro-teaser placeholder:
- * pops a transparent-background PNG cutout off the white page. */
-.portrait-cutout {
-  filter: drop-shadow(0 3px 0 rgba(11, 11, 15, 0.9)) drop-shadow(0 14px 28px rgba(11, 11, 15, 0.16));
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Anchored sections clear the fixed nav rather than hiding beneath it. */
+    scroll-padding-top: var(--spacing-nav-lg);
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-white);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: var(--color-signal-yellow);
+    color: var(--color-bg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-signal-yellow);
+    outline-offset: 3px;
+  }
 }
 
-/* Forces the native cursor off for every descendant inside the Finder section,
- * including interactive elements (buttons/inputs) whose own `cursor: pointer`
- * base style otherwise wins over an inherited `cursor: none` on the ancestor. */
-.finder-cursor-scope,
-.finder-cursor-scope * {
-  cursor: none !important;
+/* ---------------------------------------------------------------------------
+ * Global type scale. Sections consume these classes rather than re-declaring
+ * sizes, so the whole site steps through one scale.
+ * ------------------------------------------------------------------------ */
+@layer components {
+  .type-eyebrow {
+    @apply font-mono text-eyebrow font-medium tracking-eyebrow text-signal-yellow uppercase md:text-eyebrow-lg;
+  }
+
+  .type-h1 {
+    @apply font-display text-h1 leading-h1 tracking-display font-black md:text-h1-md lg:text-h1-lg;
+  }
+
+  .type-h2 {
+    @apply font-display text-h2 tracking-display text-white font-black leading-none md:text-h2-lg;
+  }
+
+  .type-h3 {
+    @apply font-display text-h3 font-bold text-white;
+  }
+
+  .type-body {
+    @apply font-body text-body leading-body text-muted font-normal md:text-body-lg;
+  }
+
+  .type-label {
+    @apply font-mono text-label tracking-nav text-muted font-medium uppercase;
+  }
+
+  .type-label-sm {
+    @apply font-mono text-label-xs tracking-label-wide text-muted font-medium uppercase;
+  }
+
+  .type-label-lg {
+    @apply font-mono text-label-lg tracking-nav text-muted font-medium uppercase;
+  }
+
+  .type-data {
+    @apply font-display text-signal-yellow font-bold tabular-nums;
+  }
+
+  .type-data-secondary {
+    @apply font-display text-white font-bold tabular-nums;
+  }
+
+  .type-button {
+    @apply font-body text-button tracking-button font-medium uppercase;
+  }
+
+  /* Device (d): the outline half of a two-tone headline. */
+  .text-stroke-yellow {
+    -webkit-text-stroke: 1.5px var(--color-signal-yellow);
+    color: transparent;
+  }
+
+  /* Oversized ghost numerals sitting behind row content (anti-card rule). */
+  .text-stroke-white {
+    -webkit-text-stroke: 1.5px var(--color-white);
+    color: transparent;
+  }
+
+  /* Hero HUD only — the one permitted bordered container on the site. It reads
+   * as a broadcast overlay, not a card: hairline border, blur, no shadow. */
+  .hud-panel {
+    background-color: color-mix(in srgb, var(--color-bg-elevated) 55%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+  }
+}
+
+@layer utilities {
+  /* Section rhythm: one padding scale shared by every sector. */
+  .sector-shell {
+    @apply mx-auto w-full max-w-[90rem] px-6 md:px-10 lg:px-16;
+  }
+
+  .sector-block {
+    @apply py-16 md:py-24 lg:py-32;
+  }
+}
+
+/* Sitewide reduced-motion contract: entrances, tickers, pulses and count-ups
+ * all resolve to their finished state. Component logic mirrors this for
+ * JS-driven motion (GSAP timelines, the 3D scene, telemetry counters). */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
