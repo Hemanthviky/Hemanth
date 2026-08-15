@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useReducedMotion } from "framer-motion";
 import { gsap } from "@/lib/gsap";
 import { useIsomorphicLayoutEffect } from "@/hooks/useIsomorphicLayoutEffect";
+import { PORTRAIT_IMAGE } from "@/constants/images";
 import {
   ABOUT_BIO_CLOSING_LINE,
   ABOUT_BIO_CLOSING_PARAGRAPH,
@@ -90,9 +91,12 @@ export function AboutBioPortrait() {
           <div className="relative mt-4 md:col-span-5 md:mt-0 md:-ml-16 lg:-ml-24">
             <div ref={imageRef} className="relative aspect-[3/4] w-full overflow-hidden border border-black/10">
               <Image
-                src="/Hero-Hemanth.png"
+                src={PORTRAIT_IMAGE.src}
                 alt="Hemanth N"
                 fill
+                loading="lazy"
+                placeholder="blur"
+                blurDataURL={PORTRAIT_IMAGE.blurDataURL}
                 className="object-cover object-top grayscale contrast-125"
                 sizes="(max-width: 768px) 100vw, 40vw"
               />

@@ -10,7 +10,6 @@ export const ACHIEVEMENTS_INTRO =
 
 /** Rail furniture. */
 export const ACHIEVEMENTS_ROSTER_LABEL = "Roster";
-export const ACHIEVEMENTS_DOSSIER_LABEL = "Dossier";
 export const ACHIEVEMENTS_UNLOCKED_LABEL = "Unlocked";
 
 /** Official brand artwork lives in `public/logo/`. */
@@ -22,7 +21,7 @@ export const ACHIEVEMENTS: IAchievement[] = [
     codename: "Trailhead Ranger",
     kind: "rank",
     rarity: "legendary",
-    logo: { src: `${LOGO_DIR}/tailhead.png`, alt: "Salesforce Trailhead" },
+    logo: { src: `${LOGO_DIR}/tailhead.webp`, alt: "Salesforce Trailhead" },
     title: "Salesforce Trailhead Ranger",
     summary: "141 badges across admin, automation and data.",
     brief: [
@@ -102,7 +101,7 @@ export const ACHIEVEMENTS: IAchievement[] = [
     codename: "AWS Cloud Practitioner",
     kind: "course",
     rarity: "rare",
-    logo: { src: `${LOGO_DIR}/AWS.png`, alt: "Amazon Web Services", reverseOnDark: true },
+    logo: { src: `${LOGO_DIR}/AWS.webp`, alt: "Amazon Web Services", reverseOnDark: true },
     title: "AWS Cloud Practitioner",
     summary: "Full CLF-C02 preparation course, 15 hours.",
     brief: [
