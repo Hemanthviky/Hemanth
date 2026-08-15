@@ -9,11 +9,13 @@ export function getCircuitPanel(activeIndex: number): ICircuitPanel {
   const stop = CIRCUIT_STOPS[activeIndex];
   if (!stop) return CIRCUIT_INTRO_PANEL;
 
-  const cornerMeta = `${stop.turns} · ${stop.approachSpeed} km/h apex`;
+  // No speed here on purpose: the telemetry HUD is the one place a speed is
+  // shown, and it reads the live profile rather than the corner's headline
+  // apex, which the braking zone for whatever follows can pull under.
   const milestone = JOURNEY_MILESTONES.find((entry) => entry.id === stop.milestoneId);
 
   if (!milestone) {
-    return { ...CIRCUIT_FINISH_PANEL, meta: cornerMeta };
+    return { ...CIRCUIT_FINISH_PANEL, meta: stop.turns };
   }
 
   return {
@@ -22,7 +24,7 @@ export function getCircuitPanel(activeIndex: number): ICircuitPanel {
     title: milestone.role,
     company: milestone.company,
     body: milestone.summary,
-    meta: `${milestone.dateRange} · ${cornerMeta}`,
+    meta: `${milestone.dateRange} · ${stop.turns}`,
     tech: milestone.tech,
     isPresent: milestone.isPresent,
   };

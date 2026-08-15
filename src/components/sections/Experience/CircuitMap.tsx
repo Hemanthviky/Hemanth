@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import {
   CIRCUIT_CAR,
+  CIRCUIT_CAR_IMAGE,
   CIRCUIT_DRS_WIDTH,
   CIRCUIT_DRS_ZONES,
   CIRCUIT_LABELS,
@@ -16,10 +17,15 @@ import {
 } from "@/constants/circuit";
 import type { CircuitLabelAnchor, CircuitMapMode, ICircuitPoint } from "@/types/experience";
 
+/** Origin matches the anchor so the label's counter-scale (see `.circuit-label`)
+ * pivots on the point it is pinned to instead of drifting off it as the camera
+ * zooms. */
+const CAR_WIDTH = CIRCUIT_CAR.length * CIRCUIT_CAR.aspect;
+
 const ANCHOR_CLASSES: Record<CircuitLabelAnchor, string> = {
-  start: "-translate-y-1/2",
-  middle: "-translate-x-1/2 -translate-y-1/2",
-  end: "-translate-x-full -translate-y-1/2",
+  start: "origin-left -translate-y-1/2",
+  middle: "origin-center -translate-x-1/2 -translate-y-1/2",
+  end: "origin-right -translate-x-full -translate-y-1/2",
 };
 
 /** The SVG keeps its aspect ratio and fills the box, so viewBox coordinates map
@@ -41,114 +47,119 @@ interface CircuitMapProps {
 export function CircuitMap({ mode = "drive" }: CircuitMapProps) {
   const isDriving = mode === "drive";
   const initialState = isDriving ? "upcoming" : "visited";
-  const glowFilterId = `circuit-car-glow-${mode}`;
 
   return (
     <div className="circuit-map">
       <svg
         viewBox={`0 0 ${CIRCUIT_VIEWBOX_WIDTH} ${CIRCUIT_VIEWBOX_HEIGHT}`}
-        className="absolute inset-0 h-full w-full overflow-visible"
+        className="absolute inset-0 h-full w-full"
         fill="none"
         aria-hidden
       >
-        <defs>
-          <filter id={glowFilterId} x="-100%" y="-100%" width="300%" height="300%">
-            <feGaussianBlur stdDeviation="6" />
-          </filter>
-        </defs>
-
-        <path
-          d={CIRCUIT_TRACK_PATH}
-          strokeWidth={CIRCUIT_TRACK_HALO_WIDTH}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="stroke-foreground/[0.04]"
-        />
-        <path
-          data-circuit-path
-          d={CIRCUIT_TRACK_PATH}
-          strokeWidth={CIRCUIT_TRACK_WIDTH}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="stroke-foreground/40"
-        />
-        {/* Asphalt already driven, revealed by the drive hook. */}
-        <path
-          data-circuit-trace
-          d={CIRCUIT_TRACK_PATH}
-          strokeWidth={CIRCUIT_TRACK_WIDTH}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="stroke-accent"
-          opacity={isDriving ? 0 : 1}
-        />
-
-        {CIRCUIT_DRS_ZONES.map((zone) => (
+        {/* Everything the camera moves. The drive hook writes a translate+scale
+         * here and the matching transform onto the label layer below, so the
+         * two stay locked together while the lap is zoomed in. */}
+        <g data-circuit-camera className="[will-change:transform]">
           <path
-            key={zone.id}
-            data-circuit-drs
-            d={zone.d}
-            strokeWidth={CIRCUIT_DRS_WIDTH}
+            d={CIRCUIT_TRACK_PATH}
+            strokeWidth={CIRCUIT_TRACK_HALO_WIDTH}
             strokeLinecap="round"
-            className="stroke-success"
+            strokeLinejoin="round"
+            className="stroke-foreground/[0.04]"
           />
-        ))}
+          <path
+            data-circuit-path
+            d={CIRCUIT_TRACK_PATH}
+            strokeWidth={CIRCUIT_TRACK_WIDTH}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="stroke-foreground/40"
+          />
+          {/* Asphalt already driven, revealed by the drive hook. */}
+          <path
+            data-circuit-trace
+            d={CIRCUIT_TRACK_PATH}
+            strokeWidth={CIRCUIT_TRACK_WIDTH}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="stroke-accent"
+            opacity={isDriving ? 0 : 1}
+          />
 
-        <line
-          x1={CIRCUIT_START_LINE.from.x}
-          y1={CIRCUIT_START_LINE.from.y}
-          x2={CIRCUIT_START_LINE.to.x}
-          y2={CIRCUIT_START_LINE.to.y}
-          strokeWidth={CIRCUIT_START_LINE_WIDTH}
-          strokeLinecap="round"
-          className="stroke-error"
-        />
+          {CIRCUIT_DRS_ZONES.map((zone) => (
+            <path
+              key={zone.id}
+              data-circuit-drs
+              d={zone.d}
+              strokeWidth={CIRCUIT_DRS_WIDTH}
+              strokeLinecap="round"
+              className="stroke-success"
+            />
+          ))}
 
-        {CIRCUIT_STOPS.map((stop) => (
-          <g key={stop.id} data-circuit-stop data-state={initialState} className="group">
-            <circle
-              cx={stop.point.x}
-              cy={stop.point.y}
-              r={CIRCUIT_MARKER.glow}
-              className="origin-center fill-accent opacity-0 transition-opacity duration-300 [transform-box:fill-box] group-data-[state=active]:opacity-25 motion-safe:group-data-[state=active]:animate-corner-pulse"
-            />
-            <circle
-              cx={stop.point.x}
-              cy={stop.point.y}
-              r={CIRCUIT_MARKER.ring}
-              strokeWidth={CIRCUIT_MARKER.ringStroke}
-              className="fill-background stroke-foreground/35 transition-colors duration-300 group-data-[state=visited]:stroke-accent/60 group-data-[state=active]:stroke-accent"
-            />
-            <circle
-              cx={stop.point.x}
-              cy={stop.point.y}
-              r={CIRCUIT_MARKER.core}
-              className="fill-transparent transition-colors duration-300 group-data-[state=visited]:fill-accent/60 group-data-[state=active]:fill-accent"
-            />
-          </g>
-        ))}
+          <line
+            x1={CIRCUIT_START_LINE.from.x}
+            y1={CIRCUIT_START_LINE.from.y}
+            x2={CIRCUIT_START_LINE.to.x}
+            y2={CIRCUIT_START_LINE.to.y}
+            strokeWidth={CIRCUIT_START_LINE_WIDTH}
+            strokeLinecap="round"
+            className="stroke-error"
+          />
 
-        {/* Drawn at the origin: the drive hook translates and rotates the whole
-         * group onto the sampled path point. */}
-        {isDriving && (
-          <g data-circuit-car opacity="0">
-            <circle
-              r={CIRCUIT_CAR.glow}
-              filter={`url(#${glowFilterId})`}
-              className="fill-accent opacity-70"
-            />
-            <circle r={CIRCUIT_CAR.core} className="fill-foreground" />
-          </g>
-        )}
+          {CIRCUIT_STOPS.map((stop) => (
+            <g key={stop.id} data-circuit-stop data-state={initialState} className="group">
+              <circle
+                cx={stop.point.x}
+                cy={stop.point.y}
+                r={CIRCUIT_MARKER.glow}
+                className="origin-center fill-accent opacity-0 transition-opacity duration-300 [transform-box:fill-box] group-data-[state=active]:opacity-25 motion-safe:group-data-[state=active]:animate-corner-pulse"
+              />
+              <circle
+                cx={stop.point.x}
+                cy={stop.point.y}
+                r={CIRCUIT_MARKER.ring}
+                strokeWidth={CIRCUIT_MARKER.ringStroke}
+                className="fill-background stroke-foreground/35 transition-colors duration-300 group-data-[state=visited]:stroke-accent/60 group-data-[state=active]:stroke-accent"
+              />
+              <circle
+                cx={stop.point.x}
+                cy={stop.point.y}
+                r={CIRCUIT_MARKER.core}
+                className="fill-transparent transition-colors duration-300 group-data-[state=visited]:fill-accent/60 group-data-[state=active]:fill-accent"
+              />
+            </g>
+          ))}
+
+          {/* Centred on the origin: the drive hook translates and rotates the
+           * whole group onto the sampled path point. The quarter turn on the
+           * car itself takes the nose-up artwork to nose-forward. */}
+          {isDriving && (
+            <g data-circuit-car opacity="0">
+              <image
+                href={CIRCUIT_CAR_IMAGE}
+                width={CAR_WIDTH}
+                height={CIRCUIT_CAR.length}
+                x={-CAR_WIDTH / 2}
+                y={-CIRCUIT_CAR.length / 2}
+                transform="rotate(90)"
+              />
+            </g>
+          )}
+        </g>
       </svg>
 
-      <div className="pointer-events-none absolute inset-0" aria-hidden>
+      <div
+        data-circuit-label-layer
+        className="pointer-events-none absolute inset-0 origin-top-left [will-change:transform]"
+        aria-hidden
+      >
         {CIRCUIT_LABELS.map((label) => (
           <span
             key={label.id}
             data-circuit-label
             style={labelStyle(label.point)}
-            className={`absolute whitespace-nowrap font-mono text-[0.58rem] uppercase leading-none tracking-[0.2em] md:text-[0.68rem] ${
+            className={`circuit-label absolute whitespace-nowrap font-mono text-[0.58rem] uppercase leading-none tracking-[0.2em] md:text-[0.68rem] ${
               ANCHOR_CLASSES[label.anchor]
             } ${label.tone === "drs" ? "text-success" : "text-secondary/70"} ${
               label.minor ? "invisible lg:visible" : "invisible md:visible"

@@ -33,10 +33,10 @@ export interface ICircuitStop {
   id: string;
   corner: string;
   turns: string;
-  /** Apex speed, km/h — the readout the telemetry brakes down to. */
+  /** Apex speed, km/h — a ceiling handed to the velocity profile, not a
+   * display value. The profile may end up slower still where the corner feeds
+   * straight into a slower one, so the telemetry is the only speed shown. */
   approachSpeed: number;
-  /** Top speed reached on the straight leading into this corner, km/h. */
-  straightSpeed: number;
   point: ICircuitPoint;
   /** Links the stop to an IJourneyMilestone; absent on the closing stop. */
   milestoneId?: string;
@@ -65,6 +65,24 @@ export interface ICircuitSegment {
 export interface ICircuitZone {
   id: string;
   d: string;
+}
+
+/** Where the car is, and how fast, at one instant of the lap. */
+export interface ICircuitLapSample {
+  /** Position along the track path, 0-1. */
+  progress: number;
+  /** Speed in km/h. */
+  speed: number;
+}
+
+/** Maps elapsed lap time onto position and speed. Because time — not distance
+ * — is what scroll drives, a metre of hairpin costs far more scroll than a
+ * metre of the Hangar Straight. */
+export interface ICircuitVelocityProfile {
+  /** Position and speed at a normalised lap time, 0-1. */
+  sample(time: number): ICircuitLapSample;
+  /** Normalised lap time at which the car reaches a given path progress. */
+  timeAt(progress: number): number;
 }
 
 /** Everything the info panel renders, resolved from the active stop. */

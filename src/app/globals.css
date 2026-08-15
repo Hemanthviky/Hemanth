@@ -87,6 +87,14 @@ body {
   position: relative;
   width: min(100cqw, 100cqh * 1000 / 620);
   aspect-ratio: 1000 / 620;
+  overflow: hidden;
+}
+
+/* Corner labels ride the camera with the track, but their type must not grow
+ * with it — the layer publishes the current zoom and each label divides it
+ * back out, pivoting on the anchor point set by its origin utility. */
+.circuit-label {
+  scale: calc(1 / var(--circuit-zoom, 1));
 }
 
 /* The hero's bottom row tucks up into the empty space the portrait leaves under

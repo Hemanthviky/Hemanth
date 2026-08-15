@@ -117,7 +117,6 @@ export const CIRCUIT_STOPS: ICircuitStop[] = [
     corner: "Brooklands · Luffield",
     turns: "Turns 6–7",
     approachSpeed: 145,
-    straightSpeed: 300,
     point: { x: 806, y: 209 },
     milestoneId: "diagonal-labs",
   },
@@ -126,7 +125,6 @@ export const CIRCUIT_STOPS: ICircuitStop[] = [
     corner: "Copse",
     turns: "Turn 9",
     approachSpeed: 290,
-    straightSpeed: 320,
     point: { x: 901, y: 441 },
     milestoneId: "indsys-technologies",
   },
@@ -135,7 +133,6 @@ export const CIRCUIT_STOPS: ICircuitStop[] = [
     corner: "Stowe",
     turns: "Turn 15",
     approachSpeed: 250,
-    straightSpeed: 335,
     point: { x: 103, y: 300 },
     milestoneId: "self-employed",
   },
@@ -144,7 +141,6 @@ export const CIRCUIT_STOPS: ICircuitStop[] = [
     corner: "Club",
     turns: "Turn 17",
     approachSpeed: 185,
-    straightSpeed: 290,
     point: { x: 240, y: 100 },
   },
 ];
@@ -158,7 +154,7 @@ export const CIRCUIT_LABELS: ICircuitLabel[] = [
   { id: "village", text: "Village", point: { x: 572, y: 380 }, anchor: "start", minor: true },
   { id: "loop", text: "The Loop", point: { x: 480, y: 430 }, anchor: "end", minor: true },
   { id: "wellington", text: "Wellington Str.", point: { x: 760, y: 400 }, anchor: "start", minor: true },
-  { id: "wellington-drs", text: "DRS", point: { x: 720, y: 340 }, anchor: "start", tone: "drs" },
+  { id: "wellington-drs", text: "DRS", point: { x: 756, y: 322 }, anchor: "start", tone: "drs" },
   { id: "brooklands", text: "Brooklands · Luffield", point: { x: 735, y: 105 }, anchor: "end" },
   { id: "woodcote", text: "Woodcote", point: { x: 900, y: 150 }, anchor: "start", minor: true },
   { id: "copse", text: "Copse", point: { x: 920, y: 465 }, anchor: "start" },
@@ -166,7 +162,7 @@ export const CIRCUIT_LABELS: ICircuitLabel[] = [
   { id: "chapel", text: "Chapel", point: { x: 405, y: 540 }, anchor: "end", minor: true },
   { id: "hangar", text: "Hangar Straight", point: { x: 330, y: 375 }, anchor: "middle", minor: true },
   { id: "hangar-drs", text: "DRS", point: { x: 215, y: 335 }, anchor: "start", tone: "drs" },
-  { id: "stowe", text: "Stowe", point: { x: 85, y: 300 }, anchor: "end" },
+  { id: "stowe", text: "Stowe", point: { x: 78, y: 288 }, anchor: "end" },
   { id: "vale", text: "Vale", point: { x: 200, y: 105 }, anchor: "end", minor: true },
   { id: "club", text: "Club", point: { x: 232, y: 62 }, anchor: "end" },
 ];
@@ -177,18 +173,48 @@ export const CIRCUIT_TRACK_HALO_WIDTH = 14;
 export const CIRCUIT_DRS_WIDTH = 4.5;
 export const CIRCUIT_START_LINE_WIDTH = 4.5;
 
-/** Stop marker and car radii, in viewBox units. */
+/** Stop marker radii, in viewBox units. */
 export const CIRCUIT_MARKER = { glow: 20, ring: 8, ringStroke: 2, core: 3.5 };
-export const CIRCUIT_CAR = { glow: 15, core: 5.5 };
 
-/** Scroll timeline shape. Each stop gets one `drive` unit to reach it and one
- * `dwell` unit parked on the apex, which is the window the panel is readable
- * in; the driving share of each unit spent accelerating sets where the speed
- * readout peaks before the braking zone. */
-export const CIRCUIT_DRIVE_DURATION = 1;
+/** Trimmed to the bodywork and drawn nose-up, so the map turns it a quarter
+ * turn to face +X — where a path angle of zero points. */
+export const CIRCUIT_CAR_IMAGE = "/images/f1-car.webp";
+
+/** `length` runs along the direction of travel and `aspect` is the source
+ * image's width÷height, so the car keeps its real proportions at any size.
+ * Both are in viewBox units, well over true scale: at 1:1 against a 5.9km lap
+ * the car would be under three units long and invisible. */
+export const CIRCUIT_CAR = { length: 38, aspect: 0.3636 };
+
+/** Velocity profile dials. Units are hybrid — km/h against viewBox distance —
+ * so these are feel, not physics. GRIP sets how hard the car can hold a bend
+ * (`v = sqrt(GRIP / curvature)`); the two limits cap how quickly it may gain
+ * or shed speed, which is what puts a braking zone ahead of each corner and a
+ * progressive slingshot after it. Braking beats acceleration, as on a real car. */
+export const CIRCUIT_VELOCITY_SAMPLES = 720;
+export const CIRCUIT_GRIP = 1200;
+export const CIRCUIT_ACCEL_LIMIT = 200;
+export const CIRCUIT_BRAKE_LIMIT = 420;
+
+/** Timeline units for a full lap of driving. Scroll maps uniformly onto lap
+ * *time*, so the velocity profile alone decides what each metre of track costs
+ * in scroll — straights blur past, corners take their time. */
+export const CIRCUIT_LAP_DURATION = 5.4;
+/** Parked on an apex, which is the window the panel is readable in. */
 export const CIRCUIT_DWELL_DURATION = 0.9;
-export const CIRCUIT_ACCEL_SHARE = 0.62;
-export const CIRCUIT_OUTLAP_SHARE = 0.45;
+/** Share of each approach spent easing away from, then back down to, a stop —
+ * so the car settles into a corner rather than snapping to a halt. */
+export const CIRCUIT_SETTLE_SHARE = 0.16;
+/** The cool-down lap: long enough for the camera to pull back unhurried. */
+export const CIRCUIT_OUTLAP_DURATION = 1.2;
+
+/** Seconds a pip click's smooth-scroll takes to land on its stop. */
+export const CIRCUIT_JUMP_DURATION = 1.6;
+
+/** How far the camera drops onto the asphalt once the car is rolling. The
+ * frame is clamped to the viewBox, so at 1 it sits back on the whole circuit
+ * and no zoom level can ever show empty space beside the track. */
+export const CIRCUIT_ZOOM_MAX = 2.2;
 
 /** Telemetry range, km/h. The idle readout is what the car shows on the grid. */
 export const CIRCUIT_IDLE_SPEED = 39;
@@ -199,5 +225,10 @@ export const CIRCUIT_GEAR_FLOORS = [0, 75, 125, 175, 220, 260, 300];
 
 /** How close, in path progress, the car must be for a stop to count as reached. */
 export const CIRCUIT_ARRIVAL_EPS = 0.004;
+
+/** Catch-up the lap allows behind the scroll position, in seconds. Deliberately
+ * small: the page already glides (see SmoothScrollProvider), and stacking a
+ * long scrub on top of that eased position reads as lag, not smoothness. */
+export const CIRCUIT_SCRUB = 0.3;
 
 export const CIRCUIT_STOP_POINTS: ICircuitPoint[] = CIRCUIT_STOPS.map((stop) => stop.point);
