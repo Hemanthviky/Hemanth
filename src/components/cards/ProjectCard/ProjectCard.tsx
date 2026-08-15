@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import { TechStackRow } from "@/components/shared/TechStackRow";
 import { EASE_OUT_EXPO } from "@/constants/motion";
 import type { IProject } from "@/types/project";
 import { ProjectCoverArt } from "./ProjectCoverArt";
@@ -40,16 +41,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           {project.description}
         </p>
 
-        <div className="mt-3 flex flex-wrap gap-1.5">
-          {project.tech.map((item) => (
-            <span
-              key={item}
-              className="rounded-full border border-black/10 px-2.5 py-1 text-[0.72rem] font-medium text-black/70"
-            >
-              {item}
-            </span>
-          ))}
-        </div>
+        <TechStackRow items={project.tech} size="sm" className="mt-3" />
       </div>
     </motion.article>
   );

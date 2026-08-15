@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { TechIcon } from "@/components/icons/TechIcon";
 import { EASE_OUT_EXPO } from "@/constants/motion";
 import type { IProject } from "@/types/project";
 
@@ -74,20 +75,19 @@ export function WorksInfoPanel({ project }: WorksInfoPanelProps) {
               {project.description}
             </motion.p>
 
-            {/* Tech tag pills */}
-            <div className="mt-6 flex flex-wrap gap-2">
+            {/* Tech stack — brand marks, staggered in with the panel */}
+            <ul aria-label="Tech stack" className="mt-6 flex list-none flex-wrap items-center gap-2">
               {project.tech.map((item, i) => (
-                <motion.span
+                <motion.li
                   key={item}
-                  className="rounded-md border border-black/[0.14] bg-transparent px-3 py-[6px] text-[0.75rem] font-medium text-black/70"
                   initial={reduced ? { opacity: 0 } : { opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.35, delay: 0.25 + i * 0.04, ease: EASE_OUT_EXPO }}
                 >
-                  {item}
-                </motion.span>
+                  <TechIcon name={item} />
+                </motion.li>
               ))}
-            </div>
+            </ul>
 
             {/* View Project CTA — text underline + black circle arrow */}
             <motion.a

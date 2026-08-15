@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Check, Plus } from "lucide-react";
+import { TechStackRow } from "@/components/shared/TechStackRow";
 import { EASE_OUT_EXPO } from "@/constants/motion";
 import { FINDER_PROJECTS } from "@/data/finderProjects";
 import { FolderIcon } from "./FolderIcon";
@@ -61,16 +62,7 @@ export function FinderMobileAccordion() {
                     ))}
                   </ul>
 
-                  <div className="flex flex-wrap gap-1.5">
-                    {project.tech.map((item) => (
-                      <span
-                        key={item}
-                        className="rounded-full border border-black/10 px-3 py-1 text-[0.72rem] font-medium text-black/70"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
+                  <TechStackRow items={project.tech} size="sm" />
                 </div>
               </div>
             </div>

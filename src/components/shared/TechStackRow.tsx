@@ -1,46 +1,22 @@
-const MARQUEE_THRESHOLD = 6;
+import { TechIcon } from "@/components/icons/TechIcon";
+import type { TechIconSize } from "@/types/tech";
 
 interface TechStackRowProps {
   items: string[];
-  /** Hook for parent GSAP stagger-ins; applied per-pill in the static row, once
-   * on the whole track in the marquee variant (individual pills can't be
-   * targeted while they're animating continuously). */
-  markerAttr?: string;
+  size?: TechIconSize;
+  className?: string;
 }
 
-/** Short stacks render as a static pill row; long stacks become a CSS ticker
- * (`animate-marquee`, defined once in globals.css and reused across sections). */
-export function TechStackRow({ items, markerAttr = "data-tech-pill" }: TechStackRowProps) {
-  if (items.length < MARQUEE_THRESHOLD) {
-    return (
-      <div className="flex flex-wrap gap-2">
-        {items.map((item) => (
-          <span
-            key={item}
-            {...{ [markerAttr]: true }}
-            className="rounded-full border border-black/10 px-3 py-1.5 text-[0.72rem] font-medium text-black/70"
-          >
-            {item}
-          </span>
-        ))}
-      </div>
-    );
-  }
-
-  const doubled = [...items, ...items];
-
+/** The tech stack as a row of brand marks. Icons stay compact enough to wrap
+ * inside every card, so no marquee is needed. */
+export function TechStackRow({ items, size = "md", className = "" }: TechStackRowProps) {
   return (
-    <div className="w-full max-w-xs overflow-hidden sm:max-w-sm" {...{ [markerAttr]: true }}>
-      <div className="flex w-max animate-marquee items-center gap-2.5 whitespace-nowrap hover:[animation-play-state:paused]">
-        {doubled.map((item, i) => (
-          <span
-            key={`${item}-${i}`}
-            className="rounded-full border border-black/10 px-3 py-1.5 text-[0.72rem] font-medium text-black/70"
-          >
-            {item}
-          </span>
-        ))}
-      </div>
-    </div>
+    <ul aria-label="Tech stack" className={`flex list-none flex-wrap items-center gap-2 ${className}`}>
+      {items.map((item) => (
+        <li key={item}>
+          <TechIcon name={item} size={size} />
+        </li>
+      ))}
+    </ul>
   );
 }

@@ -22,6 +22,9 @@ export function MagneticButton({ children, className, strength = 14 }: MagneticB
 
   function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
     if (reduced || !ref.current) return;
+    // Touch browsers synthesise a mousemove on tap but often no mouseleave,
+    // which would strand the button at an offset. Magnetism needs a real cursor.
+    if (!window.matchMedia("(pointer: fine)").matches) return;
     const rect = ref.current.getBoundingClientRect();
     const relX = (e.clientX - rect.left) / rect.width - 0.5;
     const relY = (e.clientY - rect.top) / rect.height - 0.5;
