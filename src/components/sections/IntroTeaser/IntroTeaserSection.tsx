@@ -9,6 +9,7 @@ import { gsap, SplitText } from "@/lib/gsap";
 import { useIsomorphicLayoutEffect } from "@/hooks/useIsomorphicLayoutEffect";
 import { MagneticButton } from "@/components/buttons/MagneticButton";
 import { DotGridOverlay } from "@/components/shared/DotGridOverlay";
+import { PORTRAIT_IMAGE } from "@/constants/images";
 import { IntroDoodles } from "./IntroDoodles";
 import {
   INTRO_TEASER_LABEL,
@@ -157,9 +158,12 @@ export function IntroTeaserSection() {
                   once one exists. The `.portrait-cutout` class (globals.css)
                   already adds the drop-shadow "pop off the page" treatment. */}
               <Image
-                src="/Hero-Hemanth.png"
+                src={PORTRAIT_IMAGE.src}
                 alt="Hemanth N"
                 fill
+                loading="lazy"
+                placeholder="blur"
+                blurDataURL={PORTRAIT_IMAGE.blurDataURL}
                 className="object-cover object-top"
                 sizes="(max-width: 768px) 100vw, 384px"
               />

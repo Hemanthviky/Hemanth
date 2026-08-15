@@ -1,1 +1,0 @@
-export { SelectedWork } from "./SelectedWork";

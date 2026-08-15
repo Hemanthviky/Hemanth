@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { TechIcon } from "@/components/icons/TechIcon";
 import { Navbar } from "@/components/layout/Navbar";
+import { PORTRAIT_IMAGE } from "@/constants/images";
 import { HERO_TECH_STACK } from "@/data/hero";
 
 const EXPO_OUT = [0.16, 1, 0.3, 1] as const;
@@ -144,12 +145,15 @@ export function HeroSection() {
             transition={{ duration: 1.1, delay: 0.38, ease: EXPO_OUT }}
           >
             <Image
-              src="/Hero-Hemanth.png"
+              src={PORTRAIT_IMAGE.src}
               alt="Hemanth"
               fill
               className="object-contain object-top"
               priority
-              sizes="(max-width: 768px) 320px, 680px"
+              fetchPriority="high"
+              placeholder="blur"
+              blurDataURL={PORTRAIT_IMAGE.blurDataURL}
+              sizes="(max-width: 500px) 210px, (max-width: 1619px) 42vw, 680px"
             />
           </motion.div>
 

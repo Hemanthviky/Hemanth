@@ -18,7 +18,6 @@ export const FINDER_NAV: IFinderNavItem[] = [
 /** Snappy macOS-like timings (seconds). */
 export const FINDER_OPEN_DURATION = 0.45;
 export const FINDER_CLOSE_DURATION = 0.4;
-export const FINDER_PANE_FADE_DURATION = 0.18;
 
 /** Applied inline (not via a CSS class) on every interactive element inside the
  * Finder section, so the native cursor is suppressed on the element itself
