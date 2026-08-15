@@ -24,7 +24,7 @@ export const ABOUT_QUICK_FACTS: IQuickFact[] = [
   { label: "Name", value: "Hemanth N" },
   { label: "Based In", value: "Coimbatore, Tamil Nadu, India" },
   { label: "Education", value: "B.Tech in Artificial Intelligence & Data Science" },
-  { label: "Currently", value: "Frontend Developer at Diagonal Labs" },
+  { label: "Currently", value: "Software Developer at Indsystech" },
 ];
 
 export const ABOUT_FOCUS_AREAS = [
