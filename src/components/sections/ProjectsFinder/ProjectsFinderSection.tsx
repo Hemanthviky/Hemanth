@@ -27,7 +27,7 @@ export function ProjectsFinderSection() {
     <section
       id="work"
       ref={sectionRef}
-      className={`relative w-full bg-white px-5 py-20 md:px-8 md:py-28 ${isDesktop ? "finder-cursor-scope" : ""}`}
+      className={`relative w-full scroll-mt-[var(--nav-height)] bg-white px-5 py-20 md:px-8 md:py-28 ${isDesktop ? "finder-cursor-scope" : ""}`}
     >
       <div className="mx-auto max-w-4xl">
         <ProjectsFinderHeader />

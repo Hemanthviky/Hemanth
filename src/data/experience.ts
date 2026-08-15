@@ -36,6 +36,15 @@ export const JOURNEY_MILESTONES: IJourneyMilestone[] = [
     tech: ["React.js", "Firebase", "REST APIs", "Stripe", "Sentry", "Bugsnag"],
   },
   {
+    id: "self-employed",
+    role: "Freelance Developer",
+    company: "Self-Employed",
+    dateRange: "January 2026 – Present",
+    isPresent: true,
+    summary: "Working on web and mobile projects for clients worldwide.",
+    tech: ["Websites", "React Applications", "Next.js", "Shopify Stores", "UI/UX Design"],
+  },
+  {
     id: "indsys-technologies",
     role: "Software Developer",
     company: "Indsys Technologies Pvt. Ltd.",
@@ -45,14 +54,5 @@ export const JOURNEY_MILESTONES: IJourneyMilestone[] = [
     summary:
       "Building enterprise applications and digital solutions for business clients using modern technologies.",
     tech: ["Frappe Framework", "Flutter (Mobile Apps)", "React", "Next.js", "REST APIs"],
-  },
-  {
-    id: "self-employed",
-    role: "Freelance Developer",
-    company: "Self-Employed",
-    dateRange: "January 2026 – Present",
-    isPresent: true,
-    summary: "Working on web and mobile projects for clients worldwide.",
-    tech: ["Websites", "React Applications", "Next.js", "Shopify Stores", "UI/UX Design"],
   },
 ];

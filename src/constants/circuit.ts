@@ -126,7 +126,7 @@ export const CIRCUIT_STOPS: ICircuitStop[] = [
     turns: "Turn 9",
     approachSpeed: 290,
     point: { x: 901, y: 441 },
-    milestoneId: "indsys-technologies",
+    milestoneId: "self-employed",
   },
   {
     id: "stowe",
@@ -134,7 +134,7 @@ export const CIRCUIT_STOPS: ICircuitStop[] = [
     turns: "Turn 15",
     approachSpeed: 250,
     point: { x: 103, y: 300 },
-    milestoneId: "self-employed",
+    milestoneId: "indsys-technologies",
   },
   {
     id: "club",
