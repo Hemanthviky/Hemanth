@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Check, Image as ImageIcon } from "lucide-react";
+import { TechStackRow } from "@/components/shared/TechStackRow";
 import { FINDER_NAV, FINDER_NO_CURSOR_STYLE } from "@/constants/finder";
 import type { FinderPaneId, IFinderProject } from "@/types/finder";
 
@@ -111,16 +112,7 @@ export function FinderDetail({ project }: FinderDetailProps) {
           <h4 className="mb-4 text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-black/40">
             Tech Stack
           </h4>
-          <div className="flex flex-wrap gap-2">
-            {project.tech.map((item) => (
-              <span
-                key={item}
-                className="rounded-full border border-black/10 bg-white px-3.5 py-1.5 text-[0.78rem] font-medium text-black/70"
-              >
-                {item}
-              </span>
-            ))}
-          </div>
+          <TechStackRow items={project.tech} />
         </section>
 
         <div className="my-8 h-px bg-black/[0.08]" />

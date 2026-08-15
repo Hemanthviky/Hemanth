@@ -1,16 +1,29 @@
-import type { IJourneyMilestone } from "@/types/experience";
+import type { ICircuitPanel, IJourneyMilestone } from "@/types/experience";
 
-export const EXPERIENCE_EYEBROW = "Experience";
+export const CIRCUIT_INDEX = "01";
+export const CIRCUIT_EYEBROW = "The Circuit";
+export const CIRCUIT_TITLE = "2 Years Of Full Throttle";
+export const CIRCUIT_SUBTITLE = "Scroll to drive the lap · 3 stops · 1 current seat";
+export const CIRCUIT_STOPS_LABEL = "Stops";
 
-export const JOURNEY_SUBTEXT =
-  "Each stop has been a step forward. Building better solutions and growing every day.";
+/** Shown before the car reaches the first corner. */
+export const CIRCUIT_INTRO_PANEL: ICircuitPanel = {
+  id: "lap-start",
+  eyebrow: "Lap start · Hamilton Straight",
+  title: "Keep Scrolling.",
+  body: "The lap runs as you scroll. First stop is Brooklands, where the career got off the straight and started turning.",
+};
 
-export const JOURNEY_END_LABEL = "On The Way";
+/** Shown at the closing stop, once every milestone has been passed. */
+export const CIRCUIT_FINISH_PANEL: ICircuitPanel = {
+  id: "club",
+  eyebrow: "Final corner · Club",
+  title: "Still On It.",
+  body: "The lap isn't finished. The next stop is whatever you're building — bring the brief and let's find the racing line.",
+};
 
-export const JOURNEY_CLOSING_LINE = "Keep Building. Keep Growing.";
-
-/** Ordered earliest → most recent: index 0 sits at the start of the road,
- * the last milestone sits furthest along, before the "On The Way" marker. */
+/** Ordered earliest → most recent: index 0 is the first stop of the lap, the
+ * last milestone is the final corner before the flag. */
 export const JOURNEY_MILESTONES: IJourneyMilestone[] = [
   {
     id: "diagonal-labs",
@@ -31,13 +44,7 @@ export const JOURNEY_MILESTONES: IJourneyMilestone[] = [
     isCurrent: true,
     summary:
       "Building enterprise applications and digital solutions for business clients using modern technologies.",
-    tech: [
-      "Frappe Framework",
-      "Flutter (Mobile Apps)",
-      "React, Next.js (Web Development)",
-      "REST APIs & Business Workflows",
-      "Scalable & Maintainable Solutions",
-    ],
+    tech: ["Frappe Framework", "Flutter (Mobile Apps)", "React", "Next.js", "REST APIs"],
   },
   {
     id: "self-employed",

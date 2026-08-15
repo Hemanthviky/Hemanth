@@ -2,7 +2,9 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
+import { TechIcon } from "@/components/icons/TechIcon";
 import { Navbar } from "@/components/layout/Navbar";
+import { HERO_TECH_STACK } from "@/data/hero";
 
 const EXPO_OUT = [0.16, 1, 0.3, 1] as const;
 
@@ -154,10 +156,10 @@ export function HeroSection() {
         </div>
 
         {/* ── Bottom row ── */}
-        <div className="flex flex-col gap-3 mt-4" style={{ marginTop: "-175px" }}>
+        <div className="hero-bottom-tuck flex flex-col gap-4 mt-10">
 
           {/* Tagline + tech stack */}
-          <FadeUp delay={0.66} className="flex flex-wrap items-center justify-between gap-3 ">
+          <FadeUp delay={0.66} className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-3">
             <p className="text-[0.95rem] md:text-base font-semibold text-black">
               📍 Tamil Nadu, India
             </p>
@@ -167,12 +169,12 @@ export function HeroSection() {
           </FadeUp>
 
           {/* CTA buttons + tech stack */}
-          <FadeUp delay={0.8} className="relative flex items-center justify-center gap-4 flex-wrap">
+          <FadeUp delay={0.8} className="relative flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center sm:gap-4 sm:flex-wrap">
 
             {/* PRIMARY — View Projects */}
             <motion.a
               href="#work"
-              className="group relative overflow-hidden flex items-center gap-3 px-8 py-4 rounded-2xl bg-black text-white text-[0.88rem] font-semibold tracking-wide select-none"
+              className="group relative overflow-hidden flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-black text-white text-[0.88rem] font-semibold tracking-wide select-none"
               style={{ boxShadow: "0 0 0 1px rgba(255,255,255,0.08) inset, 0 8px 32px rgba(0,0,0,0.22), 0 2px 8px rgba(0,0,0,0.18)" }}
               whileHover={{ scale: 1.03, boxShadow: "0 0 0 1px rgba(255,255,255,0.12) inset, 0 12px 40px rgba(0,0,0,0.32), 0 0 28px rgba(0,0,0,0.14)" }}
               whileTap={{ scale: 0.97 }}
@@ -191,9 +193,11 @@ export function HeroSection() {
               </span>
             </motion.a>
 
-            {/* Scroll indicator — mouse shell, centered between the two buttons */}
+            {/* Scroll indicator — mouse shell, centered between the two buttons.
+                A pointer-device affordance, and the CTAs stack full-width on
+                phones, so it only appears once the row is side-by-side. */}
             <motion.div
-              className="flex items-center"
+              className="hidden sm:flex items-center"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.1, ease: EXPO_OUT }}
@@ -212,7 +216,7 @@ export function HeroSection() {
             {/* SECONDARY — Let's Talk */}
             <motion.a
               href="#contact"
-              className="group relative overflow-hidden flex items-center gap-3 px-8 py-4 rounded-2xl text-black text-[0.88rem] font-semibold tracking-wide select-none bg-white"
+              className="group relative overflow-hidden flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-black text-[0.88rem] font-semibold tracking-wide select-none bg-white"
               style={{ boxShadow: "0 0 0 1.5px rgba(0,0,0,0.12) inset, 0 4px 16px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.06)" }}
               whileHover={{ scale: 1.03, boxShadow: "0 0 0 1.5px rgba(0,0,0,0.2) inset, 0 8px 28px rgba(0,0,0,0.11)" }}
               whileTap={{ scale: 0.97 }}
@@ -231,11 +235,11 @@ export function HeroSection() {
             </motion.a>
 
             {/* Tech stack pill — pinned to the right; only shown once there's room beside the centered CTAs */}
-            <div className="absolute right-0 hidden lg:flex items-center gap-2 px-4 py-2 rounded-full border border-black/10 bg-black/[0.03]">
-              {["React", "Next.js", "Flutter", "AI"].map((tech, i) => (
-                <span key={tech} className="flex items-center gap-2">
-                  <span className="text-[0.72rem] font-semibold text-black/60 tracking-wide">{tech}</span>
-                  {i < 3 && <span className="w-px h-3 bg-black/15 inline-block" />}
+            <div className="absolute right-0 hidden lg:flex items-center gap-3 px-4 py-2 rounded-full border border-black/10 bg-black/[0.03]">
+              {HERO_TECH_STACK.map((tech, i) => (
+                <span key={tech} className="flex items-center gap-3">
+                  <TechIcon name={tech} size="sm" variant="plain" />
+                  {i < HERO_TECH_STACK.length - 1 && <span className="w-px h-3 bg-black/15 inline-block" />}
                 </span>
               ))}
             </div>
