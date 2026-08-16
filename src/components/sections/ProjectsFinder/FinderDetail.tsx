@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Check, Image as ImageIcon } from "lucide-react";
+import { Check } from "lucide-react";
 import { TechStackRow } from "@/components/shared/TechStackRow";
+import { WebsiteViewer } from "@/components/shared/WebsiteViewer";
 import { FINDER_NAV, FINDER_NO_CURSOR_STYLE } from "@/constants/finder";
 import type { FinderPaneId, IFinderProject } from "@/types/finder";
 
@@ -119,15 +120,16 @@ export function FinderDetail({ project }: FinderDetailProps) {
 
         <section ref={(el) => { sectionRefs.current.screenshots = el; }} data-pane="screenshots">
           <h4 className="mb-4 text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-black/40">
-            Screenshots
+            Live Preview
           </h4>
-          {/* TODO: add project screenshot — drop a real image in this slot (e.g.
-              <Image src={`/projects/${project.id}.webp`} fill className="object-cover" />)
-              inside the bordered box; the layout won't need to change. */}
-          <div className="flex aspect-video w-full max-w-xl flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-black/15 bg-black/[0.02] text-black/30">
-            <ImageIcon className="h-8 w-8" strokeWidth={1.5} />
-            <span className="text-[0.72rem] font-medium uppercase tracking-[0.14em]">Screenshot coming soon</span>
-          </div>
+          <WebsiteViewer
+            urls={project.liveUrls}
+            storeUrl={project.storeUrl}
+            title={project.title}
+            className="w-full"
+            desktopCursor
+            unavailableLabel={project.status === "Upcoming" ? "Live preview coming soon" : undefined}
+          />
         </section>
 
         <div className="my-8 h-px bg-black/[0.08]" />
@@ -137,8 +139,14 @@ export function FinderDetail({ project }: FinderDetailProps) {
           <p className="max-w-xl text-[0.92rem] leading-relaxed text-black/65">{project.impact}</p>
           <div className="mt-6 flex items-center gap-2 rounded-lg border border-black/10 bg-white px-4 py-3">
             <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+              {project.status !== "Upcoming" && (
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+              )}
+              <span
+                className={`relative inline-flex h-2 w-2 rounded-full ${
+                  project.status === "Upcoming" ? "bg-amber-400" : "bg-emerald-500"
+                }`}
+              />
             </span>
             <span className="text-[0.8rem] font-semibold text-black/70">Status: {project.status}</span>
           </div>

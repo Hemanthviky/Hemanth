@@ -23,11 +23,23 @@ export function useLoadingSequence(enabled: boolean): UseLoadingSequenceResult {
     const startTime = performance.now();
     let frameId: number;
     let holdTimeoutId: ReturnType<typeof setTimeout>;
+    let lastProgress = -1;
+    let lastGreetingIndex = -1;
 
     const tick = (now: number) => {
       const elapsed = now - startTime;
-      setProgress(Math.min(100, Math.round((elapsed / totalDuration) * 100)));
-      setGreetingIndex(Math.min(GREETINGS.length - 1, Math.floor(elapsed / GREETING_DURATION_MS)));
+
+      const nextProgress = Math.min(100, Math.round((elapsed / totalDuration) * 100));
+      if (nextProgress !== lastProgress) {
+        lastProgress = nextProgress;
+        setProgress(nextProgress);
+      }
+
+      const nextGreetingIndex = Math.min(GREETINGS.length - 1, Math.floor(elapsed / GREETING_DURATION_MS));
+      if (nextGreetingIndex !== lastGreetingIndex) {
+        lastGreetingIndex = nextGreetingIndex;
+        setGreetingIndex(nextGreetingIndex);
+      }
 
       if (elapsed >= totalDuration) {
         holdTimeoutId = setTimeout(() => setIsComplete(true), COMPLETE_HOLD_MS);

@@ -17,4 +17,8 @@ export interface IFinderProject {
   tech: string[];
   impact: string;
   status: string;
+  /** Public URL(s) of the live/deployed site(s), used to render an embedded preview. Omit if there's no publicly viewable deployment. */
+  liveUrls?: string[];
+  /** App/Play Store listing URL. Store pages block iframe embedding, so this renders as a link-out card instead of a live preview. */
+  storeUrl?: string;
 }

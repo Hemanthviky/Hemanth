@@ -22,52 +22,11 @@ export const FINDER_PROJECTS: IFinderProject[] = [
     impact:
       "Helped users walk into visa interviews with measurably more confidence — realistic AI practice sessions turned an intimidating process into something they could rehearse until it felt routine.",
     status: "Completed",
-  },
-  {
-    id: "smart-id",
-    index: "02",
-    title: "Smart ID Mobile Application",
-    folderTitle: "App Development",
-    folderSubtitle: "Mobile Application",
-    subtitle: "Digital Identity & Workforce Management App",
-    overview:
-      "Developed a mobile application focused on digital identity and workforce management. The application enables secure employee identification, streamlined workplace operations, and an intuitive mobile experience for day-to-day organisational activities.",
-    features: [
-      "Built modern and responsive mobile interfaces",
-      "Integrated secure authentication workflows",
-      "Developed user-centric UI/UX",
-      "Connected mobile application with backend services",
-      "Optimised performance for smooth user experience",
-    ],
-    tech: ["Flutter", "Frappe", "REST APIs", "Firebase"],
-    impact:
-      "Replaced manual identification and paperwork with a secure digital flow, streamlining everyday workforce operations for the whole organisation.",
-    status: "Completed",
-  },
-  {
-    id: "salesforce-ai-agent",
-    index: "03",
-    title: "Salesforce AI Agent",
-    folderTitle: "Salesforce AI Agent",
-    folderSubtitle: "AI Assistant for Salesforce",
-    subtitle: "Intelligent AI Assistant for Salesforce",
-    overview:
-      "Developed an AI-powered assistant designed to enhance Salesforce workflows by providing intelligent responses, automating repetitive tasks, and improving productivity through conversational interactions.",
-    features: [
-      "Built AI-driven workflow experiences",
-      "Integrated Salesforce ecosystem",
-      "Developed conversational user interfaces",
-      "Connected AI services with business workflows",
-      "Focused on usability and seamless interactions",
-    ],
-    tech: ["Salesforce", "Agentforce", "AI", "REST APIs", "JavaScript"],
-    impact:
-      "Cut the time teams spent on repetitive CRM tasks by letting them work conversationally — the assistant handles the busywork so people can focus on customers.",
-    status: "Completed",
+    liveUrls: ["https://www.prepkind.com"],
   },
   {
     id: "static-websites",
-    index: "04",
+    index: "02",
     title: "Static Website Development",
     folderTitle: "Static Website Development",
     folderSubtitle: "Web Development",
@@ -87,6 +46,50 @@ export const FINDER_PROJECTS: IFinderProject[] = [
     impact:
       "Delivered fast, SEO-friendly sites that clients can actually maintain — pages that load quickly, rank well, and look sharp on every device.",
     status: "Completed",
+    liveUrls: ["https://goldengiraffe.net", "https://velantraone.com", "https://regardscompany.com"],
+  },
+  {
+    id: "smart-id",
+    index: "03",
+    title: "Smart ID Mobile Application",
+    folderTitle: "App Development",
+    folderSubtitle: "Mobile Application",
+    subtitle: "Digital Identity & Workforce Management App",
+    overview:
+      "Developed a mobile application focused on digital identity and workforce management. The application enables secure employee identification, streamlined workplace operations, and an intuitive mobile experience for day-to-day organisational activities.",
+    features: [
+      "Built modern and responsive mobile interfaces",
+      "Integrated secure authentication workflows",
+      "Developed user-centric UI/UX",
+      "Connected mobile application with backend services",
+      "Optimised performance for smooth user experience",
+    ],
+    tech: ["Flutter", "Frappe", "REST APIs", "Firebase"],
+    impact:
+      "Replaced manual identification and paperwork with a secure digital flow, streamlining everyday workforce operations for the whole organisation.",
+    status: "Completed",
+    storeUrl: "https://play.google.com/store/apps/details?id=com.velantra.smart_id&pli=1",
+  },
+  {
+    id: "salesforce-ai-agent",
+    index: "04",
+    title: "Salesforce AI Agent",
+    folderTitle: "Salesforce AI Agent",
+    folderSubtitle: "AI Assistant for Salesforce",
+    subtitle: "Intelligent AI Assistant for Salesforce",
+    overview:
+      "Developed an AI-powered assistant designed to enhance Salesforce workflows by providing intelligent responses, automating repetitive tasks, and improving productivity through conversational interactions.",
+    features: [
+      "Built AI-driven workflow experiences",
+      "Integrated Salesforce ecosystem",
+      "Developed conversational user interfaces",
+      "Connected AI services with business workflows",
+      "Focused on usability and seamless interactions",
+    ],
+    tech: ["Salesforce", "Agentforce", "AI", "REST APIs", "JavaScript"],
+    impact:
+      "Cut the time teams spent on repetitive CRM tasks by letting them work conversationally — the assistant handles the busywork so people can focus on customers.",
+    status: "Upcoming",
   },
   {
     id: "shopify-womens-ecommerce",
@@ -107,6 +110,6 @@ export const FINDER_PROJECTS: IFinderProject[] = [
     tech: ["Shopify", "Liquid", "HTML", "CSS", "JavaScript"],
     impact:
       "Gave a fashion brand a polished storefront that converts — a clean, responsive shopping experience from landing page to checkout.",
-    status: "Completed",
+    status: "Upcoming",
   },
 ];

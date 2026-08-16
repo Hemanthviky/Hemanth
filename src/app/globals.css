@@ -151,6 +151,29 @@ body {
   }
 }
 
+/* The layered hero title ("Web Developer" / "& Designer") must stay a single
+ * line each — the photo is absolutely positioned to sit across exactly two
+ * lines, so a wrap breaks the whole effect. A flat vw unit doesn't account for
+ * the section's fixed horizontal padding, which eats a much bigger share of a
+ * narrow phone's width than a wide desktop's, so below md the size is derived
+ * from the actual available width (100vw minus the px-5 padding) instead —
+ * guaranteed to fit down to a 320px viewport. Desktop already fit the plain
+ * vw scale this replaces, so it's restored above md. */
+.hero-title-1 {
+  font-size: clamp(1.75rem, calc((100vw - 2.5rem) / 9), 15rem);
+}
+.hero-title-2 {
+  font-size: clamp(1.6rem, calc((100vw - 2.5rem) / 8), 13.5rem);
+}
+@media (min-width: 768px) {
+  .hero-title-1 {
+    font-size: clamp(2.5rem, 12.5vw, 15rem);
+  }
+  .hero-title-2 {
+    font-size: clamp(2.3rem, 11.5vw, 13.5rem);
+  }
+}
+
 /* Ready to apply once a real cutout photo replaces the intro-teaser placeholder:
  * pops a transparent-background PNG cutout off the white page. */
 .portrait-cutout {

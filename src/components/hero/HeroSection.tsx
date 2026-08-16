@@ -61,21 +61,28 @@ function FadeUp({
 }
 
 const PHOTO_SIZE = "clamp(210px, 42vw, 680px)";
-const PHOTO_TOP = "clamp(-1.5rem, -2.5vw, -3rem)";
+const PHOTO_TOP = "clamp(-3rem, -2.5vw, -1.5rem)";
 
 export function HeroSection() {
   const reduced = useReducedMotion();
 
   return (
-    <section className="w-full min-h-dvh bg-white flex flex-col overflow-hidden">
+    <section className="w-full md:min-h-dvh bg-white flex flex-col overflow-hidden">
 
       <Navbar />
 
-      {/* ── Hero body ── */}
-      <div className="flex-1 flex flex-col justify-between gap-8 px-5 md:px-8 pt-4 pb-8 md:pb-4">
+      {/* ── Hero body ──
+       * Below md the section is no longer forced to fill the viewport (that's
+       * what was leaving the dead white gaps above/below the content on tall
+       * phones — `min-h-dvh` demanded a full screen of height this content
+       * never needed, and `justify-center`/`justify-between` just moved the
+       * void around rather than removing it). Mobile now sizes to its content
+       * with plain top-to-bottom flow; desktop keeps the original full-bleed,
+       * spread-out layout (see `.hero-bottom-tuck`, which reclaims that md+ slack). */}
+      <div className="flex flex-col md:flex-1 justify-start md:justify-between gap-6 md:gap-8 px-5 md:px-8 pt-10 pb-10 md:pt-4 md:pb-4">
 
         {/* Greeting */}
-        <FadeUp delay={0.18} className="text-center text-[0.88rem] md:text-[0.95rem] font-medium text-black/55 mb-3">
+        <FadeUp delay={0.18} className="text-center text-[0.88rem] md:text-[0.95rem] font-medium text-black/55">
           <span>👋</span>
           <span className="ml-2">, hi — I&apos;m Hemanth, Building products
             that people love.</span>
@@ -101,8 +108,7 @@ export function HeroSection() {
           {/* LINE 1 — solid, sits behind photo */}
           <div className="relative w-full" style={{ zIndex: 1 }}>
             <h1
-              className="font-black text-black leading-[0.88] tracking-[-0.03em] select-none w-full text-center"
-              style={{ fontSize: "clamp(2.5rem, 12.5vw, 15rem)" }}
+              className="hero-title-1 font-black text-black leading-[0.88] tracking-[-0.03em] select-none w-full text-center whitespace-nowrap"
             >
               <SplitWords text="Web Developer" delay={0.26} stagger={0.048} />
             </h1>
@@ -119,9 +125,8 @@ export function HeroSection() {
             style={{ zIndex: 3, marginTop: "0.05em" }}
           >
             <h2
-              className="font-black leading-[0.88] tracking-[-0.03em] select-none w-full text-center"
+              className="hero-title-2 font-black leading-[0.88] tracking-[-0.03em] select-none w-full text-center whitespace-nowrap"
               style={{
-                fontSize: "clamp(2.3rem, 11.5vw, 13.5rem)",
                 /* transparent fill + stroke = photo visible through letters */
                 color: "transparent",
                 WebkitTextStroke: "2px black",
