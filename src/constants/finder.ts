@@ -11,7 +11,7 @@ export const FINDER_NAV: IFinderNavItem[] = [
   { id: "overview", label: "Overview", icon: FileText },
   { id: "features", label: "Key Features", icon: ListChecks },
   { id: "tech", label: "Tech Stack", icon: Layers },
-  { id: "screenshots", label: "Screenshots", icon: Image },
+  { id: "screenshots", label: "Live Preview", icon: Image },
   { id: "impact", label: "Impact", icon: TrendingUp },
 ];
 

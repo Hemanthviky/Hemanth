@@ -175,7 +175,7 @@ export function FinderWindow() {
   return (
     <div
       ref={windowRef}
-      className="mx-auto w-full max-w-4xl overflow-hidden rounded-2xl border border-black/10 bg-[#FCFBF9]"
+      className="mx-auto w-full max-w-none overflow-hidden rounded-2xl border border-black/10 bg-[#FCFBF9]"
       style={{ boxShadow: "0 18px 50px rgba(11,11,15,0.12), 0 2px 8px rgba(11,11,15,0.06)" }}
     >
       <FinderChrome
@@ -190,7 +190,7 @@ export function FinderWindow() {
         searchDisabled={!!openProject}
       />
 
-      <div ref={bodyRef} className="relative h-[26rem] md:h-[28rem]">
+      <div ref={bodyRef} className="relative h-[28rem] md:h-[30rem] lg:h-[32rem]">
         <ActiveView projects={visibleProjects} onOpen={openFolder} registerFolder={registerFolder} />
 
         {visibleProjects.length === 0 && (

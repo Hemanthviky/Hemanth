@@ -29,9 +29,13 @@ export function ProjectsFinderSection() {
       ref={sectionRef}
       className={`relative w-full scroll-mt-[var(--nav-height)] bg-white px-5 py-20 md:px-8 md:py-28 ${isDesktop ? "finder-cursor-scope" : ""}`}
     >
-      <div className="mx-auto max-w-4xl">
-        <ProjectsFinderHeader />
-        {isDesktop ? <FinderWindow /> : <FinderMobileAccordion />}
+      <div className="mx-auto max-w-[90rem]">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-3 lg:items-start lg:gap-16">
+          <div className="lg:col-span-1">
+            <ProjectsFinderHeader />
+          </div>
+          <div className="lg:col-span-2">{isDesktop ? <FinderWindow /> : <FinderMobileAccordion />}</div>
+        </div>
       </div>
 
       {isDesktop && <FinderCursor scopeRef={sectionRef} />}

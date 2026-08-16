@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Check, Plus } from "lucide-react";
 import { TechStackRow } from "@/components/shared/TechStackRow";
+import { WebsiteViewer } from "@/components/shared/WebsiteViewer";
 import { EASE_OUT_EXPO } from "@/constants/motion";
 import { FINDER_PROJECTS } from "@/data/finderProjects";
 import { FolderIcon } from "./FolderIcon";
@@ -63,6 +64,13 @@ export function FinderMobileAccordion() {
                   </ul>
 
                   <TechStackRow items={project.tech} size="sm" />
+
+                  <WebsiteViewer
+                    urls={project.liveUrls}
+                    storeUrl={project.storeUrl}
+                    title={project.title}
+                    unavailableLabel={project.status === "Upcoming" ? "Live preview coming soon" : undefined}
+                  />
                 </div>
               </div>
             </div>

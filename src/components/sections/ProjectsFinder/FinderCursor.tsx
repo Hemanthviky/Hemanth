@@ -36,9 +36,34 @@ export function FinderCursor({ scopeRef }: FinderCursorProps) {
       raf = requestAnimationFrame(tick);
     };
 
+    // Iframes (the project Live Preview embeds) are a separate browsing
+    // context — once the pointer crosses into one, mousemove stops reaching
+    // this document entirely, so our fake cursor would otherwise freeze mid-air
+    // while the real cursor silently takes back over inside the embed. The
+    // last mousemove this document sees before the hand-off still fires with
+    // the iframe as its target, so that's the signal to hide the fake cursor;
+    // it reappears the moment mousemove resumes with a non-iframe target.
+    let overIframe = false;
+
     const onMouseMove = (e: MouseEvent) => {
-      target.x = e.clientX;
-      target.y = e.clientY;
+      if ((e.target as HTMLElement)?.tagName === "IFRAME") {
+        if (!overIframe) {
+          overIframe = true;
+          setVisible(false);
+        }
+        return;
+      }
+
+      if (overIframe) {
+        overIframe = false;
+        setVisible(true);
+        target.x = pos.x = e.clientX;
+        target.y = pos.y = e.clientY;
+      } else {
+        target.x = e.clientX;
+        target.y = e.clientY;
+      }
+
       const hover = (e.target as HTMLElement).closest<HTMLElement>("[data-cursor]");
       setVariant((hover?.dataset.cursor as CursorVariant) ?? "arrow");
     };
