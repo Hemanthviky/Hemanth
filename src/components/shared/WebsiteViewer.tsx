@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { ExternalLink, Globe, Smartphone } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowUpRight, ExternalLink, Globe, Smartphone } from "lucide-react";
 import { FINDER_NO_CURSOR_STYLE } from "@/constants/finder";
 
 interface WebsiteViewerProps {
@@ -16,6 +17,10 @@ interface WebsiteViewerProps {
   desktopCursor?: boolean;
   /** Message shown in the empty-state placeholder when there's nothing to preview. */
   unavailableLabel?: string;
+  /** Renders a lightweight "check it out" link card instead of an embedded iframe.
+   * Iframes are heavy and awkward to interact with on small touch screens, so the
+   * mobile accordion opts into this instead of the desktop Finder embed. */
+  linkOnly?: boolean;
 }
 
 function getHostname(url: string): string {
@@ -39,6 +44,7 @@ export function WebsiteViewer({
   className = "",
   desktopCursor = false,
   unavailableLabel = "Live preview unavailable",
+  linkOnly = false,
 }: WebsiteViewerProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const linkProps = desktopCursor ? { "data-cursor": "pointer", style: FINDER_NO_CURSOR_STYLE } : {};
@@ -79,6 +85,34 @@ export function WebsiteViewer({
   }
 
   const activeUrl = urls[activeIndex] ?? urls[0];
+
+  if (linkOnly) {
+    return (
+      <div className={`flex flex-col gap-2.5 ${className}`}>
+        {urls.map((url) => (
+          <motion.a
+            key={url}
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            whileTap={{ scale: 0.97 }}
+            className="group flex items-center justify-between gap-4 rounded-2xl border border-amber-400/25 bg-gradient-to-br from-amber-50 via-white to-white px-5 py-4 transition-colors duration-200 hover:border-amber-400/50"
+            {...linkProps}
+          >
+            <span className="flex flex-col gap-0.5">
+              <span className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-amber-600/80">
+                Live Project
+              </span>
+              <span className="text-[0.95rem] font-bold text-black">{getHostname(url)}</span>
+            </span>
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-black text-white transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
+              <ArrowUpRight className="h-4 w-4" strokeWidth={2.5} />
+            </span>
+          </motion.a>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className={`flex flex-col gap-2 ${className}`}>

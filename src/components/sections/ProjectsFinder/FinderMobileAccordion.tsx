@@ -70,6 +70,7 @@ export function FinderMobileAccordion() {
                     storeUrl={project.storeUrl}
                     title={project.title}
                     unavailableLabel={project.status === "Upcoming" ? "Live preview coming soon" : undefined}
+                    linkOnly
                   />
                 </div>
               </div>
